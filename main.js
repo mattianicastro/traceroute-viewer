@@ -8,6 +8,21 @@ const ipListElement = document.getElementById("ipList")
 const renderMapBtn = document.getElementById("renderMapBtn")
 const appElement = document.getElementById("app")
 const ipList = []
+const startIcon = L.icon({
+    iconUrl: 'flag-start.svg',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowAnchor: [22, 94]
+});
+
+const endIcon = L.icon({
+    iconUrl: 'flag-end.svg',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowAnchor: [22, 94]
+});
 
 
 const showError = (message) => {
@@ -23,8 +38,6 @@ const addIp = (ip) => {
 
 ipInputBtn.addEventListener("click", (e) => {
    const ipValue = ipInputElement.value
-   console.log(isV6Format(ipValue))
-   console.log(isV4Format(ipValue))
     if(!ipValue){
       showError("Please enter an IP address")
       return
@@ -37,7 +50,6 @@ ipInputBtn.addEventListener("click", (e) => {
       showError("Private IP address")
       return
     }
-    console.log("Valid IP address")
     ipInputElement.value = ""
     addIp(ipValue)
 })
@@ -59,13 +71,19 @@ renderMapBtn.addEventListener("click", (e) => {
   const coords = []
   var map = L.map('map').setView([0,0], 2);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 5,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
-  for(const ip of ipList){
+  var polyline = L.polyline(coords, {color: 'red'}).addTo(map);
+  ipList.forEach((ip, i)=>{
+    const icon = i === 0 ? startIcon : i === ipList.length - 1 ? endIcon : new L.Icon.Default()
     fetchIpLocation(ip).then((data) => {
-      var marker = L.marker([data.latitude, data.longitude]).addTo(map)
-      marker.bindPopup(`<b>${data.ip}</b><br>${data.city}, ${data.region} (${data.country})<br>${data.asn} | ${data.org}`).openPopup()
+      var marker = L.marker([data.latitude, data.longitude], {icon:icon}).addTo(map)
+      marker.bindPopup(`<b>${data.ip}</b><br>${data.city}, ${data.region} (${data.country})<br>${data.asn} | ${data.org}`)
+      coords.push([data.latitude, data.longitude])
+      polyline.setLatLngs(coords)
+      polyline.redraw()
     })
-  }
+  })
+  console.log(coords)
+
 })
