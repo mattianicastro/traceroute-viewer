@@ -1,12 +1,15 @@
 import "./style.css";
 import { isV4Format, isV6Format, isPrivate } from "ip";
-
+import autoAnimate from "@formkit/auto-animate";
 
 const ipInputElement = document.getElementById("ipInput")
 const ipInputBtn = document.getElementById("ipInputBtn")
 const ipListElement = document.getElementById("ipList")
 const renderMapBtn = document.getElementById("renderMapBtn")
 const appElement = document.getElementById("app")
+const mapElement = document.getElementById("map")
+
+autoAnimate(ipListElement)
 const ipList = []
 const startIcon = L.icon({
     iconUrl: 'flag-start.svg',
@@ -68,6 +71,7 @@ const fetchIpLocation = async (ip) => {
 
 renderMapBtn.addEventListener("click", (e) => {
   appElement.style.display="none"
+  mapElement.style.display="unset"
   const coords = []
   var map = L.map('map').setView([0,0], 2);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

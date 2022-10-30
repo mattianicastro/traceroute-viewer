@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
@@ -10,28 +9,26 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
     crossorigin=""></script>
+    <html data-theme="cyberpunk"></html>
     <script type="module" src="/main.js"></script>
-    <title>Vite App</title>
+    <title>Graphical Traceroute</title>
   </head>
-  <body class="bg-blue-400 h-full m-0">
-    <div id="app">
-      <div id="form" class="flex flex-col items-center m-3 bg-blue-300 rounded-md pb-3 ">
-        <h1 class="text-2xl p-3">Graphical traceroute</h1>
-        
-        <div class="inline-block">
-          <h1 class="inline">Input mode:</h1>
-          <button class="bg-green-400 rounded-lg p-2" onclick="toggleIPList()">IP List</button>
+  <body class="flex items-center justify-center h-full">
+    <div id="app" class="flex flex-col bg-neutral-content  rounded-lg p-5 gap-y-5">
+      <h1 class="text-xl text-center">Graphical traceroute</h1>
+      <div id="form" class="form-control">
+        <div class="input-group">
+          <input id="ipInput" placeholder="Insert IP address" class="input input-bordered ">
+          <button id="ipInputBtn" class="btn">+</span>
         </div>
-        <button id="renderMapBtn" class="bg-green-400 rounded-lg p-2 m-2">Render map</button>
-        
-        <div class="inline-block">
-          <input id="ipInput" placeholder="Insert IP address" class="shadow p-3 m-2 inline">
-          <button id="ipInputBtn" class="inline">+</span>
-        </div>  
-        <ul id="ipList" class="list-disc">
-        </ul>
+        <button id="renderMapBtn" class="btn">Render map</button>
       </div>
+        <div class="divider-horizontal"></div>
+        <ul id="ipList" class="">
+        </ul>
+
     </div>
-    <div id="map" class="h-full"></div>
+    <div id="map" class="h-full w-full" style="display: none;"></div>
   </body>
+  
 </html>
