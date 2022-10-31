@@ -14,9 +14,11 @@
     <title>Graphical Traceroute</title>
   </head>
   <body class="flex items-center justify-center h-full">
-    <div id="app" class="flex flex-col bg-neutral-content  rounded-lg p-5 gap-y-5">
-      <h1 class="text-xl text-center">Graphical traceroute</h1>
-      <div id="form" class="form-control">
+    <div id="toast" class="toast toast-top toast-end z-20">
+    </div>
+    <div id="app" class="flex flex-col bg-neutral-content rounded-lg p-5 gap-y-5">
+      <h1 class="text-xl text-center text-neutral">Graphical traceroute</h1>
+      <div id="form" class="form-control gap-y-1">
         <div class="input-group">
           <input id="ipInput" placeholder="Insert IP address" class="input input-bordered ">
           <button id="ipInputBtn" class="btn">+</span>
@@ -24,7 +26,7 @@
         <button id="renderMapBtn" class="btn">Render map</button>
       </div>
         <div class="divider-horizontal"></div>
-        <ul id="ipList" class="">
+        <ul id="ipList" class="text-neutral">
         </ul>
 
     </div>

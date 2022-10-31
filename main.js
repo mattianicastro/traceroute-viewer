@@ -1,13 +1,14 @@
 import "./style.css";
 import { isV4Format, isV6Format, isPrivate } from "ip";
 import autoAnimate from "@formkit/auto-animate";
-
 const ipInputElement = document.getElementById("ipInput")
 const ipInputBtn = document.getElementById("ipInputBtn")
 const ipListElement = document.getElementById("ipList")
 const renderMapBtn = document.getElementById("renderMapBtn")
 const appElement = document.getElementById("app")
 const mapElement = document.getElementById("map")
+const toastElement = document.getElementById("toast")
+
 
 autoAnimate(ipListElement)
 const ipList = []
@@ -26,9 +27,16 @@ const endIcon = L.icon({
 });
 
 
-const showToast = (message) => {
-    console.log(message)
+const showToast = (message, kind) => {
+    const error = document.createElement("div")
+    error.className = `alert alert-${kind}`
+    error.innerText = message
+    toastElement.appendChild(error)
+    setTimeout(() => {
+        error.remove()
+    }, 3000)
 }
+
 
 const addIp = (ip) => {
     ipList.push(ip)
@@ -40,15 +48,15 @@ const addIp = (ip) => {
 ipInputBtn.addEventListener("click", (e) => {
     const ipValue = ipInputElement.value
     if (!ipValue) {
-        showToast("Please enter an IP address")
+        showToast("Please enter an IP address", "warning")
         return
     }
     if (!isV4Format(ipValue) && !isV6Format(ipValue)) {
-        showToast("Invalid IP address")
+        showToast("Invalid IP address", "warning")
         return
     }
     if (isPrivate(ipValue)) {
-        showToast("Private IP address")
+        showToast("Private IP address", "warning")
         return
     }
     ipInputElement.value = ""
@@ -73,7 +81,11 @@ const fetchAllIpLocations = async (ipList) => {
 }
 
 renderMapBtn.addEventListener("click", (e) => {
-    showToast("Fetching IP locations...")
+    if (ipList.length === 0) {
+        showToast("Please enter at least one IP address", "warning")
+        return
+    }
+    showToast("Fetching IP locations...", "info")
     fetchAllIpLocations(ipList).then(locations => {
         console.log(locations)
         appElement.style.display = "none"
