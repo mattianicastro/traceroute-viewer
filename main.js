@@ -12,7 +12,7 @@ const mapElement = document.getElementById("map")
 autoAnimate(ipListElement)
 const ipList = []
 const startIcon = L.icon({
-  iconUrl: 'flag-end.svg', iconSize: [25, 41],
+  iconUrl: 'flag-start.svg', iconSize: [25, 41],
   iconAnchor: [0, 35],
   popupAnchor: [10, -34],
   tooltipAnchor: [16, -28]
