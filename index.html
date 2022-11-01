@@ -9,11 +9,11 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
     crossorigin=""></script>
-    <html data-theme="lofi"></html>
+    <html data-theme="cyberpunk"></html>
     <script type="module" src="/main.js"></script>
     <title>Graphical Traceroute</title>
   </head>
-  <body class="flex items-center justify-center h-full">
+  <body class="flex items-center justify-center h-full overflow-y-scroll">
     <div id="toast" class="toast toast-top toast-end z-20">
     </div>
     <div id="app" class="flex flex-col bg-primary rounded-lg p-5 gap-y-2 overflow-x-hidden m-2">
@@ -30,12 +30,12 @@
           <button id="ipInputBtn" class="btn w-1/6">+</span>
         </div>
       </div>
-      <div class="form-control" id="loadForm">
-        <p class="text-primary-content">Insert <a class="underline" href="https://kellyjonbrazil.github.io/jc/docs/parsers/traceroute">jc</a> formatted output</p>
-        <textarea id="textArea" class="textarea textarea-primary" placeholder="Bio"></textarea>
+      <div class="form-control hidden w-full" id="loadForm">
+        <p class="text-primary-content">Insert <a class="underline" href="https://kellyjonbrazil.github.io/jc/docs/parsers/traceroute">jc</a> parsed output</p>
+        <textarea id="textArea" class="textarea textarea-primary w-full" placeholder="JC Parsed traceroute"></textarea>
       </div>
       <div class="divider-horizontal"></div>
-        <ul id="ipList" class="text-lg rounded-lg flex flex-col items-center justify-center">
+        <ul id="ipList" class="text-lg rounded-lg flex flex-col items-center justify-center gap-y-2">
       </ul>
 
       <button id="renderMapBtn" class="btn btn-block">Render map</button>

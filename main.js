@@ -14,6 +14,8 @@ const formElement = document.getElementById("form")
 const loadFormElement = document.getElementById("loadForm")
 const textAreaElement = document.getElementById("textArea")
 
+selectElement.selectedIndex = 1
+textAreaElement.value = ""
 autoAnimate(ipListElement)
 var ipList = []
 const startIcon = L.icon({
@@ -100,17 +102,10 @@ const fetchAllIpLocations = async (ipList) => {
 }
 
 selectElement.addEventListener("change", (e) => {
+    e.preventDefault()
     clearIps()
-
-    console.log(e.target.selectedIndex)
-    if (e.target.selectedIndex === 1) {
-        loadFormElement.style.display = "none"
-        formElement.style.display = ""
-    }
-    else {
-        loadFormElement.style.display = ""
-        formElement.style.display = "none"
-    }
+    loadFormElement.classList.toggle("hidden")
+    formElement.classList.toggle("hidden")
 })
 
 const validatePaste = (paste) => {
@@ -135,7 +130,7 @@ textAreaElement.addEventListener("input", (e) => {
             if(hop.probes.length!==0){
                 return hop.probes[0].ip
             }
-        }).filter((ip)=>ip)
+        }).filter((ip)=>ip && !isPrivate(ip))
         clearIps()
         ipList.forEach((ip)=>{
             addIp(ip)
