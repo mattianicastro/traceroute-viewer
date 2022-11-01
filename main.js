@@ -1,6 +1,7 @@
 import "./style.css";
 import { isV4Format, isV6Format, isPrivate } from "ip";
 import autoAnimate from "@formkit/auto-animate";
+
 const ipInputElement = document.getElementById("ipInput")
 const ipInputBtn = document.getElementById("ipInputBtn")
 const ipListElement = document.getElementById("ipList")
@@ -8,10 +9,13 @@ const renderMapBtn = document.getElementById("renderMapBtn")
 const appElement = document.getElementById("app")
 const mapElement = document.getElementById("map")
 const toastElement = document.getElementById("toast")
-
+const selectElement = document.getElementById("selectMode")
+const formElement = document.getElementById("form")
+const loadFormElement = document.getElementById("loadForm")
+const textAreaElement = document.getElementById("textArea")
 
 autoAnimate(ipListElement)
-const ipList = []
+var ipList = []
 const startIcon = L.icon({
     iconUrl: 'flag-start.svg', iconSize: [25, 41],
     iconAnchor: [0, 35],
@@ -37,11 +41,26 @@ const showToast = (message, kind) => {
     }, 3000)
 }
 
+const clearIps = () => {
+    ipList = []
+    ipListElement.innerHTML = ""
+}
 
 const addIp = (ip) => {
     ipList.push(ip)
     const liElement = document.createElement("li")
-    liElement.innerText = ip
+    liElement.className="input-group"
+    const btnElement = document.createElement("button")
+    btnElement.className="btn"
+    btnElement.innerText="🗑️"
+    btnElement.addEventListener("click", () => {
+        liElement.remove()
+        ipList.splice(ipList.indexOf(ip), 1)
+    })
+    const spanElement = document.createElement("span")
+    spanElement.innerText=ip
+    liElement.appendChild(btnElement)
+    liElement.appendChild(spanElement)
     ipListElement.appendChild(liElement)
 }
 
@@ -79,6 +98,55 @@ const fetchAllIpLocations = async (ipList) => {
     const locations = await Promise.allSettled(ipList.map(fetchIpLocation))
     return locations.filter((location) => location.status === "fulfilled").map((location) => location.value)
 }
+
+selectElement.addEventListener("change", (e) => {
+    clearIps()
+
+    console.log(e.target.selectedIndex)
+    if (e.target.selectedIndex === 1) {
+        loadFormElement.style.display = "none"
+        formElement.style.display = ""
+    }
+    else {
+        loadFormElement.style.display = ""
+        formElement.style.display = "none"
+    }
+})
+
+const validatePaste = (paste) => {
+    console.log(paste)
+    if(!paste.hops){
+        return false
+    }
+    if(!paste.hops.every((hop) => hop.hop && hop.probes && hop.probes.every((probe) => probe.ip && probe.rtt))){
+        return false
+    }
+    return true
+}
+
+textAreaElement.addEventListener("input", (e) => {
+    try{
+        const parsedTrace = JSON.parse(e.target.value)
+        if(!validatePaste(parsedTrace)){
+            showToast("Pasted output was invalid", "error")
+            return
+        }
+        const ipList = parsedTrace.hops.map((hop)=>{
+            if(hop.probes.length!==0){
+                return hop.probes[0].ip
+            }
+        }).filter((ip)=>ip)
+        clearIps()
+        ipList.forEach((ip)=>{
+            addIp(ip)
+        })
+    } catch (e) {
+        console.log(e)
+        showToast("Invalid JSON", "error")
+        return
+    }
+
+})
 
 renderMapBtn.addEventListener("click", (e) => {
     if (ipList.length === 0) {

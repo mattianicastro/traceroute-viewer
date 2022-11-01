@@ -9,27 +9,38 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
     crossorigin=""></script>
-    <html data-theme="cyberpunk"></html>
+    <html data-theme="lofi"></html>
     <script type="module" src="/main.js"></script>
     <title>Graphical Traceroute</title>
   </head>
   <body class="flex items-center justify-center h-full">
     <div id="toast" class="toast toast-top toast-end z-20">
     </div>
-    <div id="app" class="flex flex-col bg-neutral-content rounded-lg p-5 gap-y-5">
-      <h1 class="text-xl text-center text-neutral">Graphical traceroute</h1>
-      <div id="form" class="form-control gap-y-1">
-        <div class="input-group">
-          <input id="ipInput" placeholder="Insert IP address" class="input input-bordered ">
-          <button id="ipInputBtn" class="btn">+</span>
-        </div>
-        <button id="renderMapBtn" class="btn">Render map</button>
-      </div>
-        <div class="divider-horizontal"></div>
-        <ul id="ipList" class="text-neutral">
-        </ul>
+    <div id="app" class="flex flex-col bg-primary rounded-lg p-5 gap-y-2 overflow-x-hidden m-2">
+      <h1 class="text-2xl font-bold text-center text-primary-content">Graphical traceroute</h1>
+      <select class="select select-bordered w-full max-w-xs" id="selectMode">
+        <option disabled selected>Select input mode</option>
+        <option>Manual input</option>
+        <option>Load tracerout output</option>
+      </select>
+      <div id="form" class="flex flex-col justify-center items-center gap-y-2">
 
+        <div class="input-group flex items-center justify-center w-full">
+          <input id="ipInput" placeholder="Insert IP address" class="input input-bordered w-5/6">
+          <button id="ipInputBtn" class="btn w-1/6">+</span>
+        </div>
+      </div>
+      <div class="form-control" id="loadForm">
+        <p class="text-primary-content">Insert <a class="underline" href="https://kellyjonbrazil.github.io/jc/docs/parsers/traceroute">jc</a> formatted output</p>
+        <textarea id="textArea" class="textarea textarea-primary" placeholder="Bio"></textarea>
+      </div>
+      <div class="divider-horizontal"></div>
+        <ul id="ipList" class="text-lg rounded-lg flex flex-col items-center justify-center">
+      </ul>
+
+      <button id="renderMapBtn" class="btn btn-block">Render map</button>
     </div>
+
     <div id="map" class="h-full w-full" style="display: none;"></div>
   </body>
   
