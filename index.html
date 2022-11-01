@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="min-h-screen">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,7 @@
     <script type="module" src="/main.js"></script>
     <title>Graphical Traceroute</title>
   </head>
-  <body class="flex items-center justify-center h-full overflow-y-scroll">
+  <body class="flex items-center justify-center min-h-screen overflow-y-scroll">
     <div id="toast" class="toast toast-top toast-end z-20">
     </div>
     <div id="app" class="flex flex-col bg-primary rounded-lg p-5 gap-y-2 overflow-x-hidden m-2">
@@ -41,7 +41,7 @@
       <button id="renderMapBtn" class="btn btn-block">Render map</button>
     </div>
 
-    <div id="map" class="h-full w-full" style="display: none;"></div>
+    <div id="map" class="h-screen w-full" style="display: none;"></div>
   </body>
   
 </html>

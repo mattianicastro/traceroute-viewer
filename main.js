@@ -109,7 +109,6 @@ selectElement.addEventListener("change", (e) => {
 })
 
 const validatePaste = (paste) => {
-    console.log(paste)
     if(!paste.hops){
         return false
     }
@@ -136,7 +135,7 @@ textAreaElement.addEventListener("input", (e) => {
             addIp(ip)
         })
     } catch (e) {
-        console.log(e)
+        console.error(e)
         showToast("Invalid JSON", "error")
         return
     }
@@ -150,7 +149,6 @@ renderMapBtn.addEventListener("click", (e) => {
     }
     showToast("Fetching IP locations...", "info")
     fetchAllIpLocations(ipList).then(locations => {
-        console.log(locations)
         appElement.style.display = "none"
         mapElement.style.display = "unset"
         const coords = []
@@ -161,7 +159,6 @@ renderMapBtn.addEventListener("click", (e) => {
         var polyline = L.polyline(coords, { color: 'red' }).addTo(map);
         locations.forEach((data, i)=>{
             if(data.error){
-                console.log("skipped")
                 return
             }
             const icon = i === 0 ? startIcon : i === ipList.length - 1 ? endIcon : new L.Icon.Default()
