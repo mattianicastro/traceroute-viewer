@@ -35,7 +35,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - run: npm ci
-      - run: npm run build
+      - run: npm run build -- --base=${GITHUB_REPOSITORY#*/}/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
